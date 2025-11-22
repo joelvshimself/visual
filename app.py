@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import plotly.express as px
-
 
 
 st.set_page_config(page_title="Simple Data Dashboard", layout="wide")
@@ -28,17 +26,21 @@ def render_histogram():
     st.pyplot(fig)
 
 
-def render_plotly_example():
-    """Ejemplo simple con Plotly Express."""
-    st.subheader("Gráfico con Plotly")
+def render_bar_matplotlib():
+    """Gráfico de barras usando solo Matplotlib (alternativa a Plotly)."""
+    st.subheader("Gráfico de barras (Matplotlib)")
     df = pd.DataFrame(
         {
             "categoria": ["A", "B", "C", "D"],
             "valor": np.random.randint(1, 10, size=4),
         }
     )
-    fig = px.bar(df, x="categoria", y="valor", title="Valores por categoría")
-    st.plotly_chart(fig, use_container_width=True)
+    fig, ax = plt.subplots()
+    ax.bar(df["categoria"], df["valor"])
+    ax.set_xlabel("Categoría")
+    ax.set_ylabel("Valor")
+    ax.set_title("Valores por categoría")
+    st.pyplot(fig)
 
 
 def render_best_dessert():
@@ -66,7 +68,7 @@ def main():
         st.markdown("---")
         render_histogram()
         st.markdown("---")
-        render_plotly_example()
+        render_bar_matplotlib()
         st.markdown("---")
         render_best_dessert()
 
